@@ -5,6 +5,7 @@ import {
   useAuthRequest,
   useAutoDiscovery,
 } from 'expo-auth-session';
+import * as WebBrowser from 'expo-web-browser';
 import { KeycloakContext } from './KeycloakContext';
 import useTokenStorage from './useTokenStorage';
 import { handleTokenExchange, getRealmURL } from './helpers';
@@ -23,25 +24,28 @@ import {
 //   url: string;
 // }
 
+WebBrowser.maybeCompleteAuthSession();
 
-export const KeycloakProvider = ({ realm, clientId, url, extraParams, children, ...options }) => {
+export const KeycloakProvider = ({ realm, clientId, url, extraParams, scopes, clientSecret, children, ...options }) => {
 
   const discovery = useAutoDiscovery(getRealmURL({ realm, url }));
+
   const redirectUri = AuthSession.makeRedirectUri({
     native: `${options.scheme ?? 'exp'}://${options.nativeRedirectPath ?? NATIVE_REDIRECT_PATH}`,
     useProxy: !options.scheme,
   });
 
-  const config = { redirectUri, clientId, realm, url, extraParams }
+  const config = { redirectUri, clientId, realm, url, extraParams, scopes, clientSecret }
 
   const [request, response, promptAsync] = useAuthRequest(
     { usePKCE: false, ...config },
     discovery,
   );
+  
   const [currentToken, updateToken] = useTokenStorage(options, config, discovery)
 
-  const handleLogin = useCallback((options) => {
-    return promptAsync(options);
+  const handleLogin = useCallback(() => {
+    return promptAsync();
   }, [request])
 
   const handleLogout = () => {
@@ -69,6 +73,7 @@ export const KeycloakProvider = ({ realm, clientId, url, extraParams, children, 
     }
     updateToken(null)
   }
+
   useEffect(() => {
     if (response) {
       handleTokenExchange({ response, discovery, config })

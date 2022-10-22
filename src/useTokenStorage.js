@@ -20,13 +20,15 @@ const useTokenStorage = ({
   const tokenData = useRef(null)
 
   async function updateAndSaveToken(newToken) {
+    console.log(newToken);
     try {
-      setToken(newToken)
       if (newToken !== null) {
         const stringifiedValue = JSON.stringify(newToken);
         await setItem(stringifiedValue)
+        setToken(newToken)
       } else {
         await removeItem()
+        setToken(null)
       }
     } catch (error) {
       console.log(error)
