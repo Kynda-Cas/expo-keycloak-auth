@@ -1,4 +1,4 @@
-# expo-keycloak-auth
+# @alimonia/expo-keycloak-auth 🥦
 
 > expo-auth-session wrapper for keycloak
 
