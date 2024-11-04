@@ -49,36 +49,19 @@ const useTokenStorage = ({
   }
 
   useEffect(() => {
-    const handleAppState = nextAppState => {
-      if (
-        appState.current.match(/inactive|background/) &&
-        nextAppState === "active"
-      ) {
-        if (refreshHandler.current !== null) {
-          clearTimeout(refreshHandler.current)
-          const now = getCurrentTimeInSeconds()
+    if (refreshHandler.current !== null) {
+      clearTimeout(refreshHandler.current)
+      const now = getCurrentTimeInSeconds()
 
-          if (refreshTime.current <= now) {
-            setToken(null)
-          } else {
-            const timeout = 1000 * (refreshTime.current - now)
-            refreshHandler.current = setTimeout(() => {
-              handleTokenRefresh(tokenData.current)
-            }, timeout)
-          }
-        }
-      }
-      appState.current = nextAppState;
-    }
-    const subscription = AppState.addEventListener("change", handleAppState);
-
-    return () => {
-      if (subscription) {
-        subscription.remove()
+      if (refreshTime.current <= now) {
+        setToken(null)
       } else {
-        AppState.removeEventListener("change", handleAppState)
+        const timeout = 1000 * (refreshTime.current - now)
+        refreshHandler.current = setTimeout(() => {
+          handleTokenRefresh(tokenData.current)
+        }, timeout)
       }
-    };
+    }
   }, []);
 
   useEffect(() => {
