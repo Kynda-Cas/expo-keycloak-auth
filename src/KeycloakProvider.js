@@ -45,7 +45,7 @@ export const KeycloakProvider = ({ realm, clientId, url, extraParams, scopes, cl
   const [currentToken, updateToken] = useTokenStorage(options, config, discovery)
 
   const handleLogin = useCallback(() => {
-    return promptAsync();
+    return promptAsync({showInRecents: true});
   }, [request])
 
   const handleLogout = () => {
