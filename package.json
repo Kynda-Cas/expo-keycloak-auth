@@ -1,18 +1,18 @@
 {
   "name": "@kynda/expo-keycloak-auth",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "description": "expo-auth-session wrapper for keycloak authentication",
   "author": "Kynda-Cas",
   "license": "MIT",
   "repository": "Kynda-Cas/expo-keycloak-auth",
   "scripts": {},
   "keywords": [
-   "expo",
-   "keycloak",
-   "AuthSession",
-   "oauth2",
-   "openid",
-   "react native"
+    "expo",
+    "keycloak",
+    "AuthSession",
+    "oauth2",
+    "openid",
+    "react native"
   ],
   "devDependencies": {
     "expo-yarn-workspaces": "^1.2.1"
