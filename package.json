@@ -1,5 +1,5 @@
 {
-  "name": "@kynda/expo-keycloak-auth",
+  "name": "kynda-expo-keycloak-auth",
   "version": "1.0.21",
   "description": "expo-auth-session wrapper for keycloak authentication",
   "author": "Kynda-Cas",
